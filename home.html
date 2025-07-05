@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ElectroStore - Home</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="main-header">
+    <h1>ElectroStore</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+
+  <main class="product-container">
+    <h2>Featured Products</h2>
+    <div class="products" id="productList">
+      <!-- Product cards will be inserted by JavaScript -->
+    </div>
+  </main>
+
+  <script>
+    const products = [
+      { id: 1, name: "Arduino UNO", price: 999, rating: 4.5 },
+      { id: 2, name: "Raspberry Pi 4", price: 3499, rating: 4.7 },
+      { id: 3, name: "Ultrasonic Sensor", price: 199, rating: 4.2 },
+      { id: 4, name: "Bluetooth Module", price: 299, rating: 4.4 }
+    ];
+
+    const productList = document.getElementById("productList");
+
+    products.forEach(product => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <h3>${product.name}</h3>
+        <p>₹${product.price}</p>
+        <p>⭐ ${product.rating}</p>
+        <button onclick="addToCart(${product.id})">Add to Cart</button>
+      `;
+      productList.appendChild(card);
+    });
+    function addToCart(productId) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      
+      const index = cart.findIndex(item => item.id === productId);
+    if (index !== -1) {
+      cart[index].qty += 1;
+    } else {
+      cart.push({ id: productId, qty: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Item added to cart!");
+  }
+  </script>
+</body>
+</html>
